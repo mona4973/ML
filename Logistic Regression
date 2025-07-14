@@ -1,0 +1,29 @@
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+import matplotlib.pyplot as plt
+
+# sample data
+X= np.array([[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]])
+y= np.array([0,0,0,0,0,1,1,1,1,1])
+
+model = LogisticRegression()
+model.fit(X,y)
+
+X_test = np.array([[3], [6], [8.5]])
+predicted_probabilities =model.predict_proba(X_test) 
+predicted_classes = model.predict(X_test)
+
+for i in range(len(X_test)):
+  print(f"study hours: {X_test[i][0]}, probability of passing: {predicted_probabilities[i][1]:.2f}, predicted class: {predicted_classes[i]}")
+
+X_plot = np.linspace(0, 11, 100).reshape(-1,1)
+probs= model.predict_proba(X_plot)[:, 1]
+
+plt.scatter(X, y, color='blue', label='Actual')
+plt.plot(X_plot, probs, color='red', label='Logistic Curve')
+plt.xlabel('Study Hours')
+plt.ylabel('Probability of Passing')
+plt.title('Logistic Regression')
+plt.legend()
+plt.grid(True)
+plt.show()
